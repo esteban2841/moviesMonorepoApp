@@ -1,0 +1,26 @@
+{
+  "name": "moviesapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run build --workspace=front && npm run build --workspace=front",
+    "dev": "npm run start:dev --workspace=back && npm run dev --workspace=front",
+    "start": "npm start start --workspace=back",
+    "dev:api": "npm run build && npm run dev --workspace=back"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint-config-next": "14.2.5",
+    "eslint": "^8.42.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0"
+  },
+  "workspaces": [
+    "front",
+    "back"
+  ]
+}
