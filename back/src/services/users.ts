@@ -20,7 +20,6 @@ export class UsersService {
   }
   async findOne( userData: any ): Promise<any> {
     const userExists = await this.usersModel.findOne({email: userData.email}).exec()
-	console.log("TCL: UsersService -> constructor -> userExists", userExists)
     if( !userExists ){
         throw new Error('user is not registered')
     }

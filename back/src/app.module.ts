@@ -13,6 +13,7 @@ import { ConfigModule } from '@nestjs/config';
     }),
     MongooseModule.forRoot(process.env.MONGO_URI),
     UsersModule,
+    
   ],
   controllers: [AppController],
   providers: [AppService],
