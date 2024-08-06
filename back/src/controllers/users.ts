@@ -108,7 +108,7 @@ export class UsersController {
         user,
       });
     } catch (err) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('You has not logged in, please log in');
     }
   }
 }
