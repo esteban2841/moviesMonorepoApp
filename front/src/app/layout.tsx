@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { NavSectionElements } from "@/components/atoms/NavSectionElements";
+import { RightMenu } from "@/components/molecules/RightMenu";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className + ' ' + 'h-screen w-full'}>
+      <nav className="w-full flex flex-row justify-between items-center px-10 bg-[#000]">
+          <NavSectionElements></NavSectionElements>
+          <RightMenu></RightMenu>
+        </nav>
+          {children}
+      </body>
     </html>
   );
 }

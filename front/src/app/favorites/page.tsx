@@ -1,9 +1,7 @@
-import Image from "next/image";
-
-export default function Home() {
+export default function Favorites() {
   return (
     <main className="flex flex-col items-center justify-between">
-      <h1>Hello</h1>
+      <h1>chau</h1>
     </main>
   );
 }
