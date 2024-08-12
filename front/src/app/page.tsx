@@ -1,9 +1,38 @@
-import Image from "next/image";
+import { Loader } from "@/components/atoms/Loader";
+import { HomeSwiperSection } from "@/components/molecules/HomeSwiperSection";
+import { ModalSign } from "@/components/molecules/ModalSign";
+import { fetchDataSections } from "@/helpers/fetch";
+import { Suspense } from "react";
 
-export default function Home() {
-  return (
-    <main className="flex flex-col items-center justify-between">
-      <h1>Hello</h1>
-    </main>
+export default async function Home() {
+  const url = 'http://localhost:8000/movies'
+  const popular = await fetchDataSections(url, 'popular')
+  const upcoming = await fetchDataSections(url, 'upcoming')
+  const topRated = await fetchDataSections(url, 'top-rated')
+  const nowPlaying = await fetchDataSections(url, 'now-playing')
+
+    return (
+    <section className="w-full relative overflow-hidden h-full flex flex-col gap-4 items-center justify-between p-4">
+      <Suspense fallback={
+        <Loader/>
+      }>
+        <HomeSwiperSection sectionData={popular.data.results} sectionName={popular.name}></HomeSwiperSection>
+      </Suspense>
+      <Suspense fallback={
+        <Loader/>
+      }>
+        <HomeSwiperSection sectionData={upcoming.data.results} sectionName={upcoming.name}></HomeSwiperSection>
+      </Suspense>
+      <Suspense fallback={
+        <Loader/>
+      }>
+        <HomeSwiperSection sectionData={topRated.data.results} sectionName={topRated.name.split('-').join(" ") }></HomeSwiperSection>
+      </Suspense>
+      <Suspense fallback={
+        <Loader/>
+      }>
+        <HomeSwiperSection sectionData={nowPlaying.data.results} sectionName={nowPlaying.name.split('-').join(" ") }></HomeSwiperSection>
+      </Suspense>
+    </section>
   );
 }

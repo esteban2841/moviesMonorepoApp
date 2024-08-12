@@ -3,6 +3,10 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { NavSectionElements } from "@/components/atoms/NavSectionElements";
 import { RightMenu } from "@/components/molecules/RightMenu";
+import { AsideFiltersSectionComponent } from "@/components/molecules/AsideFiltersSectionComponent";
+import { ModalSign } from "@/components/molecules/ModalSign";
+import StyledComponentsRegistry from '../helpers/registry'
+import { MoviesProvider } from "@/context/movies/MoviesProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,12 +22,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className + ' ' + 'h-screen w-full'}>
-      <nav className="w-full flex flex-row justify-between items-center px-10 bg-[#000]">
-          <NavSectionElements></NavSectionElements>
-          <RightMenu></RightMenu>
-        </nav>
-          {children}
+      <body className={inter.className + ' ' + 'w-full box-border'}>
+        <MoviesProvider>
+
+          <StyledComponentsRegistry>
+            <nav className="w-full text-[#F6F6F6] flex flex-row justify-between items-center px-10 bg-[#000]">
+              <NavSectionElements></NavSectionElements>
+              <RightMenu></RightMenu>
+            </nav>
+            <main className="w-full relative h-full flex box-border flex-row justify-center text-[#F6F6F6]">
+              <ModalSign></ModalSign>
+              <AsideFiltersSectionComponent></AsideFiltersSectionComponent>
+              {children}
+            </main>
+          </StyledComponentsRegistry>
+        </MoviesProvider>
       </body>
     </html>
   );

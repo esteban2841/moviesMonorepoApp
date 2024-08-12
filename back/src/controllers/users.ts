@@ -9,14 +9,12 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { UsersService } from '../services/users';
-import { response } from 'express';
-import { User, UserSchema } from '../schemas/users';
+import { User } from '../schemas/users';
 import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { JwtService } from '@nestjs/jwt';
 import { Req } from '@nestjs/common';
-import { Request } from '@nestjs/common';
 
 @Controller('/users')
 export class UsersController {
@@ -101,7 +99,7 @@ export class UsersController {
         throw new UnauthorizedException('Invalid credentials');
       }
 
-      const user = await this.userModel.findById(data.id);
+      const user = await this.userModel.findById(data.id, { password: 0 });
 
       return response.json({
         message: 'User has logged in successfully',
