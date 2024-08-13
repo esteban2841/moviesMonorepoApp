@@ -3,6 +3,7 @@ import { HomeSwiperSection } from "@/components/molecules/HomeSwiperSection";
 import { ModalSign } from "@/components/molecules/ModalSign";
 import { fetchDataSections } from "@/helpers/fetch";
 import { Suspense } from "react";
+import { useRef } from 'react';
 
 export default async function Home() {
   const url = 'http://localhost:8000/movies'
@@ -21,7 +22,7 @@ export default async function Home() {
       <Suspense fallback={
         <Loader/>
       }>
-        <HomeSwiperSection sectionData={upcoming.data.results} sectionName={upcoming.name}></HomeSwiperSection>
+        <HomeSwiperSection  sectionData={upcoming.data.results} sectionName={upcoming.name}></HomeSwiperSection>
       </Suspense>
       <Suspense fallback={
         <Loader/>

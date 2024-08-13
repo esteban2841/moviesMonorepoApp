@@ -16,7 +16,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { JwtService } from '@nestjs/jwt';
 import { Req } from '@nestjs/common';
 
-@Controller('/users')
+@Controller('users')
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
@@ -34,26 +34,23 @@ export class UsersController {
     return await this.usersService.findAll();
   }
 
-  @Post()
-  async addNewUser(
-    @Res({ passthrough: true }) response,
-    @Body() userData: any,
-  ): Promise<any> {
+  @Post('/register')
+  async addNewUser(@Res() response, @Body() userData: any) {
     try {
       const userHashed = await this.generateHashedPassword(userData.password);
 
-      const newUser = this.usersService.addNewUser({
+      const newUser = await this.usersService.addNewUser({
         ...userData,
         password: userHashed,
       });
-      return response.status(HttpStatus.CREATED).json({
+      return response.status(200).json({
         message: 'User has been created successfuly',
         user: newUser,
       });
     } catch (error) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: 400,
-        message: 'Error: User cannot be created!',
+        message: 'Error: ' + error.message || 'bad request',
         error: 'Bad Request',
       });
     }
@@ -62,6 +59,7 @@ export class UsersController {
   @Post('/login')
   async login(
     @Res() response,
+    @Req() request,
     @Body('password') password: string,
     @Body('email') email: string,
   ) {
@@ -71,11 +69,11 @@ export class UsersController {
         throw new BadRequestException('invalid credentials');
       }
       const jwt = await this.jwtService.signAsync({ id: user._id });
-
       response.cookie('jwt', jwt, { httpOnly: true });
 
       return response.json({
         message: 'User has logged in successfully',
+        user,
       });
     } catch (error) {
       return response.status(HttpStatus.BAD_REQUEST).json({
@@ -87,10 +85,7 @@ export class UsersController {
   }
 
   @Get('/user')
-  async user(
-    @Res({ passthrough: true }) response,
-    @Req() request,
-  ): Promise<string> {
+  async user(@Res({ passthrough: true }) response, @Req() request) {
     try {
       const cookie = request.cookies['jwt'];
       const data = await this.jwtService.verifyAsync(cookie);
@@ -102,7 +97,7 @@ export class UsersController {
       const user = await this.userModel.findById(data.id, { password: 0 });
 
       return response.json({
-        message: 'User has logged in successfully',
+        message: 'User has logged in successfully take the user',
         user,
       });
     } catch (err) {

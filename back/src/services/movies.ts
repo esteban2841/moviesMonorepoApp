@@ -36,13 +36,16 @@ export class MoviesService {
     private http: HttpService,
   ) {}
 
-  async findAll() {
+  async findAll(page?: string) {
+    const pageToRequest = page || '1';
     const { data } = await firstValueFrom(
       this.http
-        .get<MoviesResponse>('/discover/movie?language=en-US', {
-          withCredentials: true,
-          params: {
-            api_key: process.env.MOVIES_API_KEY,
+        .get<MoviesResponse>(
+          `/discover/movie?language=en-US&page=${pageToRequest}`,
+          {
+            withCredentials: true,
+            params: {
+              api_key: process.env.MOVIES_API_KEY,
           },
         })
         .pipe(
@@ -112,11 +115,6 @@ export class MoviesService {
 
   async getPopularMovies(params?: string) {
     // const paramsArray = params.split('?') || '';
-
-    console.log(
-      'TCL: MoviesService -> getPopularMovies -> paramsObject',
-      params
-    );
 
     const { data } = await firstValueFrom(
       this.http

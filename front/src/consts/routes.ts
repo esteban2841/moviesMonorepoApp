@@ -1,27 +1,31 @@
 export const ROUTES = [
     {
         href: '/',
-        name: 'home',
+        name: 'popular',
         hasImage: true
     },
     {
         href: '/',
-        name: 'home',
+        name: 'popular',
+    },
+    {
+        href: '/now-playing',
+        name: 'Now playing',
+    },
+    {
+        href: '/upcoming',
+        name: 'upcoming',
+    },
+    {
+        href: '/top-rated',
+        name: 'Top rated',
     },
     {
         href: '/favorites',
         name: 'favorites',
     },
     {
-        href: '/popular',
-        name: 'popular',
-    },
-    {
-        href: '/now-playing',
-        name: 'now playing',
-    },
-    {
-        href: '/upcoming',
-        name: 'upcoming',
+        href: '/saved',
+        name: 'saved',
     },
 ]

@@ -6,11 +6,23 @@ import { moviesReducer } from './moviesReducer';
 export interface MoviesState {
     activeFilterName?: string,
     isLoginModalOpen?: boolean,
+    signButonSelected?: string,
+    sliderSections: Array<SectionRef>,
+    // Methods
+    toggleLoginModal?: (payload: any) => void,
+    setSignButton?: (payload: any) => void,
+}
+
+export interface SectionRef {
+    current: HTMLElement,
+    name: string
 }
 
 const INITIAL_STATE: MoviesState = {
+    sliderSections: [],
     activeFilterName: '',
     isLoginModalOpen: false,
+    signButonSelected: "sign"
 }
 
 interface Props {
@@ -25,12 +37,22 @@ export const MoviesProvider = ({children}: Props) => {
             
         dispatch({type: 'toggleLoginModal', payload: payload})
     }
+    const setSignButton = (payload: MoviesState) =>{
+            
+        dispatch({type: 'setSignButton', payload: payload})
+    }
+    const setSliderSection = (payload: MoviesState) =>{
+            
+        dispatch({type: 'setSliderSections', payload: payload})
+    }
 
     return (
         <MoviesContext.Provider value={{
             ...state,
             //Methods
             toggleLoginModal,
+            setSignButton,
+            setSliderSection,
         }}>
             {children}
         </MoviesContext.Provider>

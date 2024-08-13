@@ -11,9 +11,9 @@ export class MoviesController {
     @InjectModel(Movies.name) private moviesModel: Model<Movies>,
   ) {}
   @Get()
-  async findAll(@Res() response): Promise<object> {
+  async findAll(@Res() response, @Query('page') page: string): Promise<object> {
     try {
-      const data = await this.moviesService.findAll();
+      const data = await this.moviesService.findAll(page);
 
       return response.json({
         message: 'success',

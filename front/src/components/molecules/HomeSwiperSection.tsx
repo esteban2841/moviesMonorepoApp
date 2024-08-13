@@ -3,9 +3,10 @@ import 'swiper/css';
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { MovieCard } from '../atoms/MovieCard';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Movie, SwiperHomeProps } from '@/types/movies';
 import styled from 'styled-components';
+import { MoviesContext } from '@/context';
 
 const SwiperContainer =  styled.div`
   .section-title{
@@ -46,20 +47,23 @@ const debounceFn = (cb: ()=>void, interval: number)=>{
 
 export const HomeSwiperSection = ({sectionName, sectionData}: SwiperHomeProps) => {
   const [ data, setData] = useState([])
+  const { setSliderSection } = useContext(MoviesContext)
+  const name = sectionName
   const sectionSlider = useRef(null)
   const firstComputedWidth = window.screen.width > 1600
   const [slidesPerPage, setSlidesPerPage] = useState(firstComputedWidth ? 7 : 5)
   const calcSlidesPerPage = ()=>{
     const screenSize = sectionSlider.current?.offsetWidth 
     const slides = screenSize / 250
-    console.log("TCL: calcSlidesPerPage -> slides", slides)
     setSlidesPerPage(slides)
   }
   
-
-    
-    useEffect(()=>{
-      setData(sectionData)
+  
+  
+  useEffect(()=>{
+    const sectionRef = {sectionSlider, name}
+    setSliderSection(sectionRef)
+    setData(sectionData)
       window.addEventListener('resize', ()=>{
         debounceFn(calcSlidesPerPage, 200)
       })

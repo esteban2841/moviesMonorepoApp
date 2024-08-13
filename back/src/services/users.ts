@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from '../schemas/users';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class UsersService {
@@ -17,8 +18,9 @@ export class UsersService {
     if (userExists) {
       throw new Error('email is used and already exists');
     }
-    const newUser = new this.usersModel(userData);
-    return newUser.save();
+    userData.id = uuidv4();
+    const newUser = await this.usersModel.create(userData);
+    return newUser;
   }
   async findOne(userData: any): Promise<any> {
     const userExists = await this.usersModel

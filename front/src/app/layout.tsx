@@ -22,16 +22,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className + ' ' + 'w-full box-border'}>
+      <body className={inter.className + ' ' + 'w-full box-border relative'}>
         <MoviesProvider>
 
           <StyledComponentsRegistry>
+            <ModalSign></ModalSign>
             <nav className="w-full text-[#F6F6F6] flex flex-row justify-between items-center px-10 bg-[#000]">
               <NavSectionElements></NavSectionElements>
               <RightMenu></RightMenu>
             </nav>
             <main className="w-full relative h-full flex box-border flex-row justify-center text-[#F6F6F6]">
-              <ModalSign></ModalSign>
               <AsideFiltersSectionComponent></AsideFiltersSectionComponent>
               {children}
             </main>
