@@ -76,6 +76,25 @@ export class MoviesService {
     );
     return data;
   }
+
+  async findMovieById(id: string) {
+    const { data } = await firstValueFrom(
+      this.http
+        .get<MoviesResponse>(`/movie/${id}`, {
+          withCredentials: true,
+          params: {
+            api_key: process.env.MOVIES_API_KEY,
+          },
+        })
+        .pipe(
+          catchError((error: AxiosError) => {
+            this.logger.error(error.response.data);
+            throw 'An error happened!';
+          }),
+        ),
+    );
+    return data;
+  }
   async topRated() {
     const { data } = await firstValueFrom(
       this.http

@@ -8,7 +8,7 @@ export const AsideFiltersSectionComponent = async () => {
 
   return (
     <aside className="flex flex-col relative 
-      h-full box-border 
+      h-full box-border h-screen
       items-center gap-2 justify-start 
       bg-[#262626] w-[260px] p-[16px]">
         <h6>Genres</h6>

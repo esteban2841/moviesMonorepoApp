@@ -83,6 +83,33 @@ export class UsersController {
       });
     }
   }
+  @Post('/update')
+  async updateUser(
+    @Res() response,
+    @Req() request,
+    @Body('favorites') favorites: Array<string>,
+    @Body('saved') saved: Array<string>,
+    @Body('id') id: string,
+  ) {
+    try {
+      const body = {
+        id,
+        favorites,
+        saved,
+      };
+      const user = await this.userModel.updateUser(body);
+      return response.json({
+        message: 'User has logged in successfully',
+        user: user,
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        statusCode: 400,
+        message: 'Error: ' + error,
+        error: 'Bad Request',
+      });
+    }
+  }
 
   @Get('/user')
   async user(@Res({ passthrough: true }) response, @Req() request) {

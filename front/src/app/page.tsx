@@ -1,18 +1,19 @@
 import { Loader } from "@/components/atoms/Loader";
 import { HomeSwiperSection } from "@/components/molecules/HomeSwiperSection";
-import { ModalSign } from "@/components/molecules/ModalSign";
-import { fetchDataSections } from "@/helpers/fetch";
+import { MoviesList } from "@/components/molecules/MoviesList";
+import { fetchDataSections, fetchMovies } from "@/helpers/fetch";
+import { Movie } from "@/types/movies";
 import { Suspense } from "react";
-import { useRef } from 'react';
 
 export default async function Home() {
+  
   const url = 'http://localhost:8000/movies'
   const popular = await fetchDataSections(url, 'popular')
   const upcoming = await fetchDataSections(url, 'upcoming')
   const topRated = await fetchDataSections(url, 'top-rated')
   const nowPlaying = await fetchDataSections(url, 'now-playing')
-
-    return (
+  
+     return (
     <section className="w-full relative overflow-hidden h-full flex flex-col gap-4 items-center justify-between p-4">
       <Suspense fallback={
         <Loader/>

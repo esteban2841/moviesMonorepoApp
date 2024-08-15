@@ -22,6 +22,16 @@ export class UsersService {
     const newUser = await this.usersModel.create(userData);
     return newUser;
   }
+  async updateUser(userData: User): Promise<User> {
+    const userExists = await this.usersModel
+      .findOne({ email: userData.email })
+      .exec();
+    if (userExists) {
+      throw new Error('user does not exists');
+    }
+    const newUser = await this.usersModel.updateOne({ email: userData.email });
+    return newUser;
+  }
   async findOne(userData: any): Promise<any> {
     const userExists = await this.usersModel
       .findOne({ email: userData.email })

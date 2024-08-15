@@ -1,16 +1,20 @@
 'use client'
 import { createContext } from 'react'
-import { MoviesState, SectionRef } from './MoviesProvider'
+import { SectionRef, User } from './MoviesProvider'
 
-interface MoviesContext {
+export interface MoviesContext {
     activeFilterName?: string,
     isLoginModalOpen?: boolean,
     signButonSelected?: string,
     sliderSections: Array<SectionRef>,
+    currentUser: User | null,
     // Methods
     toggleLoginModal?: (payload: any) => void,
     setSignButton?: (payload: any) => void,
     setSliderSection?: (payload: any) => void,
+    setActiveFilter?: (payload: any) => void,
+    setCurrentUser?: (payload: any) => void,
+    addFavSavedItems?: (payload: any) => void,
 
 }
 

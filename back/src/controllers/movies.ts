@@ -3,6 +3,7 @@ import { Controller, Get, Query, Res } from '@nestjs/common';
 import { Movies } from '../schemas/movies';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { query } from 'express';
 
 @Controller('/movies')
 export class MoviesController {
@@ -41,6 +42,23 @@ export class MoviesController {
   async nowPlayingList(@Res() response): Promise<object> {
     try {
       const data = await this.moviesService.nowPlayingList();
+
+      return response.json({
+        message: 'success',
+        data,
+      });
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+  @Get('movie')
+  async findMovieById(
+    @Res() response,
+    @Query() query,
+  ): Promise<object> {
+    try {
+      const [id] = Object.keys(query);
+      const data = await this.moviesService.findMovieById(id);
 
       return response.json({
         message: 'success',

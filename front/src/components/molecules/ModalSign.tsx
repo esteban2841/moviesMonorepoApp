@@ -6,7 +6,8 @@ import { SignButtons } from "../atoms/SignButtons"
 import { SignForm } from "./SignForm"
 
 export const ModalSign = () => {
-  const { isLoginModalOpen, toggleLoginModal } = useContext(MoviesContext)
+  const { signButonSelected, isLoginModalOpen, toggleLoginModal } = useContext(MoviesContext)
+	console.log("TCL: ModalSign -> signButonSelected", signButonSelected)
   return (
     isLoginModalOpen ? <div className="fixed w-full max-w-5xl w-full h-[600px]
     flex flex-row items-center rounded-3xl justify-center p-4
@@ -37,7 +38,16 @@ export const ModalSign = () => {
         <h1 className="text-3xl text-center">Welcome to Inlaze Movies!</h1>
         <h5 className="text-sm text-center">🎬 Ready to unlock a universe of cinematic delights? Sign up now and start your journey with us!</h5>
       </div>
-      <Image width={500} height={500} alt="user dummy" src={'/user-logo.png'} />
+      {
+        signButonSelected == 'sign'
+        ? <div>
+            <Image width={500} height={500} alt="user dummy" src={'/user-logo.png'} />
+          </div>
+        :<div>
+        <Image width={500} height={500} alt="user dummy" src={'/dummy.png'} />
+      </div>
+        
+      }
     </div>
 </div>: <></>
   )

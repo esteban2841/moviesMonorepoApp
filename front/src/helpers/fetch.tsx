@@ -3,7 +3,8 @@ interface User {
   password: string,
 }
 
-export const fetchDataSections = async (url: string, endpoint: string) => {
+export const fetchDataSections = async (url: string, endpoint?: string) => {
+
     const res = await fetch(`${url}/${endpoint}`)
    
     if (!res.ok) {
@@ -16,6 +17,28 @@ export const fetchDataSections = async (url: string, endpoint: string) => {
       data
     }
     return sectionData
+  }
+export const fetchMovies = async (url: string, page?: string) => {
+    const res = await fetch(`${url}?${page}`)
+   
+    if (!res.ok) {
+      throw new Error('Failed to fetch data')
+    }
+   
+    const {data} = await res.json()
+   
+    return data
+  }
+export const getMovieByid = async (url: string, id?: string) => {
+    const res = await fetch(`${url}?${id}`)
+   
+    if (!res.ok) {
+      throw new Error('Failed to fetch data')
+    }
+   
+    const {data} = await res.json()
+   
+    return data
   }
 export const createUser = async (url: string, endpoint: string, userData: User) => {
   const res = await fetch(`${url}/${endpoint}`, {

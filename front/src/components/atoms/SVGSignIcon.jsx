@@ -4,6 +4,7 @@ const SVGSignIcon = (props) => (
       width={25}
       height={25}
       fill="none"
+      className="hover:text-[#e6a713]"
       {...props}
     >
       <path

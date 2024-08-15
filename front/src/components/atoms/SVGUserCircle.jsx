@@ -4,6 +4,7 @@ const SVGUserCircle = (props) => (
       width={26}
       height={25}
       fill="none"
+      className="hover:text-[#e6a713]"
       {...props}
     >
       <path
