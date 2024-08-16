@@ -20,12 +20,5 @@ export const ROUTES = [
         href: '/top-rated',
         name: 'Top rated',
     },
-    {
-        href: '/favorites',
-        name: 'favorites',
-    },
-    {
-        href: '/saved',
-        name: 'saved',
-    },
+
 ]

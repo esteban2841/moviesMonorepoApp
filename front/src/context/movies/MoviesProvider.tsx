@@ -9,6 +9,7 @@ export interface MoviesState {
     signButonSelected?: string,
     sliderSections: Array<SectionRef>,
     currentUser: User | null,
+    isSignedUser: boolean,
     // Methods
     toggleLoginModal?: (payload: any) => void,
     setSignButton?: (payload: any) => void,
@@ -16,6 +17,8 @@ export interface MoviesState {
     setActiveFilter?: (payload: any) => void,
     setCurrentUser?: (payload: any) => void,
     addFavSavedItems?: (payload: any) => void,
+    logout?: (payload: any) => void,
+    setIsSignedUserData?: (payload: any) => void,
 }
 
 export interface User {
@@ -25,7 +28,7 @@ export interface User {
     id?: string
     _id: string
     __v?: number
-    saved?: Array<string>
+    saved?: Array<string>,
 }
 
 export interface SectionRef {
@@ -38,7 +41,8 @@ const INITIAL_STATE: MoviesState = {
     activeFilterName: '',
     isLoginModalOpen: false,
     signButonSelected: "sign",
-    currentUser: {}
+    currentUser: {},
+    isSignedUser: false
 }
 
 interface Props {
@@ -73,6 +77,14 @@ export const MoviesProvider = ({children}: Props) => {
             
         dispatch({type: 'addFavSavedItems', payload: payload})
     }
+    const logout = (payload: MoviesState) =>{
+            
+        dispatch({type: 'logout', payload: payload})
+    }
+    const setIsSignedUserData = (payload: MoviesState) =>{
+            
+        dispatch({type: 'setIsSignedUserData', payload: payload})
+    }
 
     return (
         <MoviesContext.Provider value={{
@@ -83,7 +95,9 @@ export const MoviesProvider = ({children}: Props) => {
             setSliderSection,
             setActiveFilter,
             setCurrentUser,
-            addFavSavedItems
+            addFavSavedItems,
+            logout,
+            setIsSignedUserData
         }}>
             {children}
         </MoviesContext.Provider>

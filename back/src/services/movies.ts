@@ -46,8 +46,9 @@ export class MoviesService {
             withCredentials: true,
             params: {
               api_key: process.env.MOVIES_API_KEY,
+            },
           },
-        })
+        )
         .pipe(
           catchError((error: AxiosError) => {
             this.logger.error(error.response.data);
@@ -176,6 +177,43 @@ export class MoviesService {
     const { data } = await firstValueFrom(
       this.http
         .get<MoviesResponse>('/genre/movie/list?language=en', {
+          withCredentials: true,
+          params: {
+            api_key: process.env.MOVIES_API_KEY,
+          },
+        })
+        .pipe(
+          catchError((error: AxiosError) => {
+            this.logger.error(error.response.data);
+            throw 'An error happened!';
+          }),
+        ),
+    );
+    return data;
+  }
+
+  async getUserSavedMovies(id: any): Promise<any> {
+    const { data } = await firstValueFrom(
+      this.http
+        .get<MoviesResponse>(`/movie/${id}`, {
+          withCredentials: true,
+          params: {
+            api_key: process.env.MOVIES_API_KEY,
+          },
+        })
+        .pipe(
+          catchError((error: AxiosError) => {
+            this.logger.error(error.response.data);
+            throw 'An error happened!';
+          }),
+        ),
+    );
+    return data;
+  }
+  async getUserFavoriteMovies(id: any): Promise<any> {
+    const { data } = await firstValueFrom(
+      this.http
+        .get<MoviesResponse>(`/movie/${id}`, {
           withCredentials: true,
           params: {
             api_key: process.env.MOVIES_API_KEY,

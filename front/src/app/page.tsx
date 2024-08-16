@@ -1,12 +1,12 @@
 import { Loader } from "@/components/atoms/Loader";
 import { HomeSwiperSection } from "@/components/molecules/HomeSwiperSection";
-import { MoviesList } from "@/components/molecules/MoviesList";
+import { UserSavedFavSlider } from "@/components/molecules/UserSavedFavSlider";
 import { fetchDataSections, fetchMovies } from "@/helpers/fetch";
-import { Movie } from "@/types/movies";
 import { Suspense } from "react";
+import { unstable_noStore as noStore } from 'next/cache';
 
 export default async function Home() {
-  
+  noStore()
   const url = 'http://localhost:8000/movies'
   const popular = await fetchDataSections(url, 'popular')
   const upcoming = await fetchDataSections(url, 'upcoming')
@@ -35,6 +35,7 @@ export default async function Home() {
       }>
         <HomeSwiperSection sectionData={nowPlaying.data.results} sectionName={nowPlaying.name.split('-').join(" ") }></HomeSwiperSection>
       </Suspense>
+
     </section>
   );
 }

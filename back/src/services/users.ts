@@ -22,20 +22,33 @@ export class UsersService {
     const newUser = await this.usersModel.create(userData);
     return newUser;
   }
-  async updateUser(userData: User): Promise<User> {
-    const userExists = await this.usersModel
-      .findOne({ email: userData.email })
-      .exec();
-    if (userExists) {
-      throw new Error('user does not exists');
-    }
-    const newUser = await this.usersModel.updateOne({ email: userData.email });
+  async updateUser(userData: any): Promise<any> {
+    console.log('TCL: UsersService -> constructor -> userData', userData);
+    const query = { _id: userData._id };
+    const update = {
+      $set: {
+        favorites: userData.favorites,
+        saved: userData.saved,
+      },
+    };
+    const newUser = await this.usersModel.findOneAndUpdate(query, update);
+    console.log('TCL: UsersService -> constructor -> newUser', newUser);
     return newUser;
   }
   async findOne(userData: any): Promise<any> {
     const userExists = await this.usersModel
       .findOne({ email: userData.email })
       .exec();
+    if (!userExists) {
+      throw new Error('user is not registered');
+    }
+    if (userExists) {
+      return userExists;
+    }
+  }
+  async retrieveUserData(_id: any): Promise<any> {
+    
+    const userExists = await this.usersModel.findById(_id).exec();
     if (!userExists) {
       throw new Error('user is not registered');
     }

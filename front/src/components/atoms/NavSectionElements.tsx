@@ -8,7 +8,22 @@ import { useRouter } from "next/navigation"
 import { useContext } from "react"
 
 export const NavSectionElements = () => {
-  const { sliderSections } = useContext(MoviesContext)
+  const { sliderSections, currentUser } = useContext(MoviesContext)
+
+  const additionalRoutes = [
+    {
+    href: '/favorites',
+    name: 'favorites',
+    },
+    {
+        href: '/saved',
+        name: 'saved',
+    },
+  ]
+  const hasData = Object.hasOwn(currentUser, '_id')
+  const allRoutes = hasData ? [...ROUTES, ...additionalRoutes] : [...ROUTES]
+  const set = new Set(allRoutes)
+  const gettingRidOfDuplicates = [...set]
   const router = useRouter()
   const navigateHome = ()=>{router.push('/')}
   const navigateToSection = (name: string)=>{
@@ -22,7 +37,7 @@ export const NavSectionElements = () => {
   return (
     <div className="w-max-content max-w-7xl flex flex-row justify-evently items-center gap-10 p-2 bg-[#000]">
           {
-            ROUTES.map(route=>{
+            gettingRidOfDuplicates.map(route=>{
               return <a onClick={()=>navigateToSection(route.name)} key={route.name} className="cursor-pointer hover:text-[#e6a713] capitalize">
                 {route.hasImage 
                   ? <Image onClick={navigateHome} className="cursor-pointer" src={'/inlazeLogo.png'} width={134} height={42} alt="Inlaze logo"/>

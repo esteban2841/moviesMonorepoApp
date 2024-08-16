@@ -8,6 +8,7 @@ export interface MoviesContext {
     signButonSelected?: string,
     sliderSections: Array<SectionRef>,
     currentUser: User | null,
+    isSignedUser: boolean,
     // Methods
     toggleLoginModal?: (payload: any) => void,
     setSignButton?: (payload: any) => void,
@@ -15,6 +16,8 @@ export interface MoviesContext {
     setActiveFilter?: (payload: any) => void,
     setCurrentUser?: (payload: any) => void,
     addFavSavedItems?: (payload: any) => void,
+    logout?: (payload: any) => void,
+    setIsSignedUserData?: (payload: any) => void,
 
 }
 

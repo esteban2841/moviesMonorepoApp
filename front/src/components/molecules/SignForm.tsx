@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { useRouter } from "next/navigation";
 
 export const SignForm = () => {
-    const { signButonSelected, isLoginModalOpen, toggleLoginModal, setCurrentUser  } = useContext(MoviesContext)
+    const { signButonSelected, isLoginModalOpen, toggleLoginModal, setCurrentUser, setIsSignedUserData  } = useContext(MoviesContext)
     const [form, setForm] = useState({
         email:"",
         password:"",
@@ -59,13 +59,13 @@ export const SignForm = () => {
                 icon: 'success',
                 confirmButtonText: 'Great!'
             });
-
-
+            const user = res.user
+            
+            const userString = (user._id)
+            
+            router.push(`/user?id=${encodeURIComponent(userString)}`);
             toggleLoginModal(!isLoginModalOpen)
-        
-            router.push('/')
-            setCurrentUser(res.user)
-            return res.user
+            revalidatePath('/user', 'page')
             
         }catch (error) {
             Swal.fire({

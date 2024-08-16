@@ -1,12 +1,14 @@
 import {
   Body,
   Controller,
+  Query,
   Get,
   Post,
   Res,
   HttpStatus,
   BadRequestException,
   UnauthorizedException,
+  Put,
 } from '@nestjs/common';
 import { UsersService } from '../services/users';
 import { User } from '../schemas/users';
@@ -15,6 +17,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { JwtService } from '@nestjs/jwt';
 import { Req } from '@nestjs/common';
+import { stringifySafe } from 'json-stringify-safe';
 
 @Controller('users')
 export class UsersController {
@@ -83,23 +86,13 @@ export class UsersController {
       });
     }
   }
-  @Post('/update')
-  async updateUser(
-    @Res() response,
-    @Req() request,
-    @Body('favorites') favorites: Array<string>,
-    @Body('saved') saved: Array<string>,
-    @Body('id') id: string,
-  ) {
+  @Put('/update')
+  async updateUser(@Res() response, @Body() userData: any) {
     try {
-      const body = {
-        id,
-        favorites,
-        saved,
-      };
-      const user = await this.userModel.updateUser(body);
+      const user = await this.usersService.updateUser(userData);
+      console.log('TCL: UsersController -> updateUser -> user', user);
       return response.json({
-        message: 'User has logged in successfully',
+        message: 'User has been updated successfully',
         user: user,
       });
     } catch (error) {
@@ -126,6 +119,22 @@ export class UsersController {
       return response.json({
         message: 'User has logged in successfully take the user',
         user,
+      });
+    } catch (err) {
+      throw new UnauthorizedException('You has not logged in, please log in');
+    }
+  }
+  @Get('/retrieve-user')
+  async retrieveUserData(@Res() response, @Query('_id') _id) {
+    try {
+      const user = await this.usersService.retrieveUserData(_id);
+      
+      const res = stringifySafe(user);
+
+      console.log('TCL: retrieveUserData -> res', res);
+      return response.json({
+        message: 'user retrieved successfully',
+        user: res,
       });
     } catch (err) {
       throw new UnauthorizedException('You has not logged in, please log in');

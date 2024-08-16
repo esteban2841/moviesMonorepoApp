@@ -11,10 +11,10 @@ export class User extends Document {
   @Prop({ required: true, type: String })
   password: string;
 
-  @Prop({ required: true, type: String })
-  favorites: Array<string>;
-  @Prop({ required: true, type: String })
-  saved: Array<string>;
+  @Prop({ required: false, type: Array<number> })
+  favorites: Array<number>;
+  @Prop({ required: false, type: Array<number> })
+  saved: Array<number>;
 
   // Add other fields as needed
 }

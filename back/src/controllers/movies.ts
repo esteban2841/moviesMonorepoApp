@@ -1,9 +1,9 @@
 import { MoviesService } from './../services/movies';
-import { Controller, Get, Query, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
 import { Movies } from '../schemas/movies';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { query } from 'express';
+import { query, response } from 'express';
 
 @Controller('/movies')
 export class MoviesController {
@@ -52,10 +52,7 @@ export class MoviesController {
     }
   }
   @Get('movie')
-  async findMovieById(
-    @Res() response,
-    @Query() query,
-  ): Promise<object> {
+  async findMovieById(@Res() response, @Query() query): Promise<object> {
     try {
       const [id] = Object.keys(query);
       const data = await this.moviesService.findMovieById(id);
@@ -76,6 +73,52 @@ export class MoviesController {
       return response.json({
         message: 'success',
         data,
+      });
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+  @Post('saved')
+  async getUserSavedMovies(
+    @Res() response,
+    @Body() saved: any,
+  ): Promise<object> {
+    try {
+      if (!saved) throw new Error('no saved items selected');
+      const savedItems = [...saved];
+      const allSavedMovies = await Promise.all(
+        savedItems.map(async (movieId) => {
+          const data = await this.moviesService.getUserSavedMovies(movieId);
+          return data;
+        }),
+      );
+      console.log("TCL: MoviesController -> allSavedMovies", allSavedMovies)
+      return response.json({
+        message: 'success',
+        data: allSavedMovies,
+      });
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+  @Post('favorites')
+  async getUserFavoriteMovies(
+    @Res() response,
+    @Body() favorites: any,
+  ): Promise<object> {
+    try {
+      if (!favorites) throw new Error('no favorite items selected');;
+      const favoriteItems = [...favorites];
+      const allFavoriteMovies = await Promise.all(
+        favoriteItems.map(async (movieId) => {
+          const data = await this.moviesService.getUserFavoriteMovies(movieId);
+          return data;
+        }),
+      );
+      
+      return response.json({
+        message: 'success',
+        data: allFavoriteMovies,
       });
     } catch (err) {
       throw new Error(err);

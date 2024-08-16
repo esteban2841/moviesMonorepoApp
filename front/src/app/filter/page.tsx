@@ -19,10 +19,10 @@ interface FilterProps {
     const discover3 = await fetchMovies(url, '3')
   
     const allMovies : Array<Movie> = [...discover.results, ...discover2.results, ...discover3.results]
-	console.log("TCL: Page -> allMovies", allMovies.length)
 
     const params = new URLSearchParams(searchParams);
     const userFilterSelection = params.get('genre');
+	console.log("TCL: Page -> userFilterSelection", userFilterSelection)
     const filteredData = [...allMovies].filter(movie=>{
         const filteredMovie = movie.genre_ids
         const isSameGenre = filteredMovie.includes(Number(userFilterSelection))

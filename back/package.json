@@ -33,6 +33,7 @@
         "bcrypt": "^5.1.1",
         "cookie-parser": "^1.4.6",
         "dotenv": "^16.4.5",
+        "json-stringify-safe": "^5.0.1",
         "mongoose": "^8.5.2",
         "reflect-metadata": "^0.2.0",
         "rxjs": "^7.8.1",

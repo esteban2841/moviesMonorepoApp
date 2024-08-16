@@ -11,7 +11,7 @@ import { useContext, useEffect } from "react";
 import { MoviesContext } from "@/context";
 
 export const MovieCard = ({title, release_date, vote_average, poster_path, id} : MovieHomeCardProps) => {
-    const {currentUser, addFavSavedItems} = useContext(MoviesContext)
+    const {currentUser, addFavSavedItems, setCurrentUser} = useContext(MoviesContext)
     const router = useRouter()
     const baseImageUrl = 'https://image.tmdb.org/t/p/w220_and_h330_face'
     const beautifyDate = moment(release_date).format('MMMM Do YYYY')
@@ -26,11 +26,11 @@ export const MovieCard = ({title, release_date, vote_average, poster_path, id} :
         }
     }
     const handleFavorites = (id, type)=> {
-        console.log(currentUser, 'usercillo mod')
         addFavSavedItems({
             id,
             type
         })
+        
     }
     useEffect(()=>{
 
