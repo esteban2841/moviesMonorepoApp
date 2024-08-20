@@ -7,6 +7,7 @@ import Bookmark from '@/components/atoms/Bookmark'
 import ShareIcon from '@/components/atoms/ShareIcon'
 import FavoritesSVG from '@/components/atoms/FavoritesSVG'
 import { useRouter } from "next/navigation";
+import { Movie } from "@/types/movies";
 
 interface MovieDetailProp{
     url: string
@@ -22,9 +23,9 @@ const MovieDetailContainer = styled.div<MovieDetailProp>`
     }
 `
 
-export const MovieDetailBanner = ({runtime, spoken_languages, vote_count, original_title, popularity, overview, adult,
-     genres, homepage, backdrop_path, title, release_date,
-      vote_average, poster_path, id}) => {
+export const MovieDetailBanner = ({runtime, overview, genres, 
+    backdrop_path, title, release_date,
+      vote_average, poster_path, adult, id,original_language,original_title,popularity,video,vote_count}: Movie) => {
     const router = useRouter()
     const baseImageUrl = 'https://image.tmdb.org/t/p/w220_and_h330_face'
     const beautifyDate = moment(release_date).format('MMMM Do YYYY')
@@ -67,15 +68,11 @@ export const MovieDetailBanner = ({runtime, spoken_languages, vote_count, origin
                             buildStyles({
                                 strokeLinecap: 'butt',
                                 textSize: '40px',
-                                strokeWidth: '4',
-                                background: '#4DA14F',
                                 pathTransitionDuration: 0.5,
                                 textColor: '#fff',
                                 trailColor: 'rgb(38, 80, 39, 0.4)',
                                 backgroundColor: '#4DA14F',
                                 pathColor: `#4DA14F`,
-                                x: 0,
-                                y:0,
                             })
                         } maxValue={10} value={Math.ceil(vote_average)} text={`${Number(quality).toFixed(0)}%`} />
                         <h6>Users score</h6>

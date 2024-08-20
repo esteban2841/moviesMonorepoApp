@@ -22,13 +22,13 @@ export interface MoviesState {
 }
 
 export interface User {
-    email: string
-    password: string
-    favorites?: Array<string>
+    email?: string
+    password?: string
+    favorites?: Array<number>
     id?: string
-    _id: string
+    _id?: string
     __v?: number
-    saved?: Array<string>,
+    saved?: Array<number>,
 }
 
 export interface SectionRef {

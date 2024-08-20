@@ -3,7 +3,7 @@ import { fetchDataSections } from "@/helpers/fetch"
 
 export const AsideFiltersSectionComponent = async () => {
 
-  const url = 'http://localhost:8000/movies'
+  const url = `${process.env.BACKEND_URI}/movies`
   const {name, data} = await fetchDataSections(url, 'genres')
 
   return (

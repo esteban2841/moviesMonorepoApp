@@ -3,9 +3,9 @@ import { useContext } from "react"
 
 export const SignButtons = () => {
     const { signButonSelected, setSignButton } = useContext(MoviesContext)
-    const toggleButtonSelection = (e)=>{
-        const selected = e.target.id || signButonSelected
-        setSignButton(selected)
+    const toggleButtonSelection = (e : React.MouseEvent<HTMLElement>)=>{
+        const selected = e.currentTarget.id
+        setSignButton && setSignButton(selected)
     }
   return (
     <div className="sign-buttons bg-[#1C1C1C] rounded-lg flex flex-row justify-center items-center">

@@ -1,9 +1,11 @@
 interface User {
-  email: string,
-  password: string,
+  email?: string
+  password?: string
   favorites?: Array<number>
-  saved?: Array<number>
-  _id: string
+  id?: string
+  _id?: string
+  __v?: number
+  saved?: Array<number>,
 }
 
 export const fetchDataSections = async (url: string, endpoint?: string) => {
@@ -19,7 +21,6 @@ export const fetchDataSections = async (url: string, endpoint?: string) => {
       name: endpoint,
       data
     }
-    console.log("TCL: fetchDataSections -> sectionData", sectionData)
     return sectionData
   }
 export const fetchUserSaved = async (url: string, user: User, endpoint?: string) => {
@@ -35,16 +36,16 @@ export const fetchUserSaved = async (url: string, user: User, endpoint?: string)
         },
         body: JSON.stringify(saved)
       })
-      console.log("TCL: fetchUserSaved -> saved", saved)
      
       if (!res.ok) {
         throw new Error('Failed to fetch data')
       }
      
       const {data} = await res.json()
+			console.log("TCL: fetchUserSaved -> data", data)
 			return  {
         sectionName: 'saved',
-        data: [...data]
+        sectionData: [...data]
       }
     }
   }
@@ -58,7 +59,6 @@ export const fetchUserFavorites = async (url: string, user: User, endpoint?: str
     }
     
     if(favorites){
-      console.log("TCL: fetchUserSpecifics -> favorites", favorites)
       
       const res = await fetch(`${url}/favorites`, {
         method: 'POST',
@@ -68,17 +68,15 @@ export const fetchUserFavorites = async (url: string, user: User, endpoint?: str
         },
         body: JSON.stringify(favorites)
       })
-      console.log("TCL: fetchUserFavorites -> favorites", favorites)
       
       if (!res.ok) {
         throw new Error('Failed to fetch data')
       }
      
       const {data} = await res.json()
-			console.log("TCL: fetchUserFavorites -> data", data)
       return {
         sectionName: 'favorites',
-        data: [ ...data]
+        sectionData: [ ...data]
     }
     }
   }
@@ -122,7 +120,7 @@ export const createUser = async (url: string, endpoint: string, userData: User) 
     return data;
   }
 
-  export const updateUser = async (url: string, endpoint: string, userData: User) => {
+  export const updateUser = async (url: string, endpoint: string, userData?: User) => {
     const res = await fetch(`${url}/${endpoint}`, {
       method: 'PUT',
       headers: {
@@ -156,14 +154,15 @@ export const retrieveUser = async (url: string, endpoint: string) => {
    
     return data
 }
-export const retrieveUserById = async (url: string, _id: string) => {
-	console.log("TCL: retrieve -> id",url , _id)
-  const res = await fetch(`${url}/retrieve-user?${_id}`)
-  
-  if (!res.ok) {
-    throw new Error('failed to retrieve user')
-  }
-  const {data} = await res.json() 
-	console.log("TCL: getUserById -> data", data)
-  
+
+  export const retrieveUserById = async (url: string, _id?: string) => {
+    const res = await fetch(`${url}/section?_id=${_id}`)
+    if (!res.ok) {
+      throw new Error('Failed to fetch data')
+    }
+   
+    const data = await res.json()
+		console.log("TCL: retrieveUserById -> data", data)
+   
+    return data
   }

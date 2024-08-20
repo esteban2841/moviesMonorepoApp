@@ -1,17 +1,21 @@
 import { Loader } from "@/components/atoms/Loader";
 import { HomeSwiperSection } from "@/components/molecules/HomeSwiperSection";
-import { UserSavedFavSlider } from "@/components/molecules/UserSavedFavSlider";
 import { fetchDataSections, fetchMovies } from "@/helpers/fetch";
 import { Suspense } from "react";
 import { unstable_noStore as noStore } from 'next/cache';
 
+
+
 export default async function Home() {
   noStore()
-  const url = 'http://localhost:8000/movies'
+  const url = `${process.env.BACKEND_URI}/movies`
+	console.log("TCL: Home -> url", url)
   const popular = await fetchDataSections(url, 'popular')
   const upcoming = await fetchDataSections(url, 'upcoming')
-  const topRated = await fetchDataSections(url, 'top-rated')
-  const nowPlaying = await fetchDataSections(url, 'now-playing')
+  const {name: top, data: dataTop} = await fetchDataSections(url, 'top-rated')
+  const {name: now, data: dataNow} = await fetchDataSections(url, 'now-playing')
+  const topName = top && top.split('-').join(" ");
+  const nowName = now && now.split('-').join(" ");
   
      return (
     <section className="w-full relative overflow-hidden h-full flex flex-col gap-4 items-center justify-between p-4">
@@ -28,12 +32,12 @@ export default async function Home() {
       <Suspense fallback={
         <Loader/>
       }>
-        <HomeSwiperSection sectionData={topRated.data.results} sectionName={topRated.name.split('-').join(" ") }></HomeSwiperSection>
+        <HomeSwiperSection sectionData={dataTop.results} sectionName={topName}></HomeSwiperSection>
       </Suspense>
       <Suspense fallback={
         <Loader/>
       }>
-        <HomeSwiperSection sectionData={nowPlaying.data.results} sectionName={nowPlaying.name.split('-').join(" ") }></HomeSwiperSection>
+        <HomeSwiperSection sectionData={dataNow.results} sectionName={nowName}></HomeSwiperSection>
       </Suspense>
 
     </section>

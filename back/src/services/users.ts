@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from '../schemas/users';
@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class UsersService {
+  private readonly logger = new Logger(UsersService.name)
   constructor(@InjectModel(User.name) private usersModel: Model<User>) {}
 
   async findAll(): Promise<User[]> {
@@ -23,7 +24,6 @@ export class UsersService {
     return newUser;
   }
   async updateUser(userData: any): Promise<any> {
-    console.log('TCL: UsersService -> constructor -> userData', userData);
     const query = { _id: userData._id };
     const update = {
       $set: {
@@ -32,7 +32,6 @@ export class UsersService {
       },
     };
     const newUser = await this.usersModel.findOneAndUpdate(query, update);
-    console.log('TCL: UsersService -> constructor -> newUser', newUser);
     return newUser;
   }
   async findOne(userData: any): Promise<any> {
@@ -52,8 +51,6 @@ export class UsersService {
     if (!userExists) {
       throw new Error('user is not registered');
     }
-    if (userExists) {
-      return userExists;
-    }
+    return userExists;
   }
 }

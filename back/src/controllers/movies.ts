@@ -15,6 +15,7 @@ export class MoviesController {
   async findAll(@Res() response, @Query('page') page: string): Promise<object> {
     try {
       const data = await this.moviesService.findAll(page);
+			console.log("TCL: MoviesController -> data", data)
 
       return response.json({
         message: 'success',
@@ -42,6 +43,7 @@ export class MoviesController {
   async nowPlayingList(@Res() response): Promise<object> {
     try {
       const data = await this.moviesService.nowPlayingList();
+			console.log("TCL: MoviesController -> data", data)
 
       return response.json({
         message: 'success',
@@ -69,6 +71,7 @@ export class MoviesController {
   async upcoming(@Res() response): Promise<object> {
     try {
       const data = await this.moviesService.upcoming();
+			console.log("TCL: MoviesController -> data", data)
 
       return response.json({
         message: 'success',
@@ -84,6 +87,7 @@ export class MoviesController {
     @Body() saved: any,
   ): Promise<object> {
     try {
+      console.log("TCL: MoviesController -> saved", saved)
       if (!saved) throw new Error('no saved items selected');
       const savedItems = [...saved];
       const allSavedMovies = await Promise.all(
@@ -128,6 +132,7 @@ export class MoviesController {
   async topRated(@Res() response): Promise<object> {
     try {
       const data = await this.moviesService.topRated();
+			console.log("TCL: MoviesController -> data", data)
 
       return response.json({
         message: 'success',

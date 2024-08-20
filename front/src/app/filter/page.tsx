@@ -3,17 +3,17 @@
 import { Loader } from '@/components/atoms/Loader'
 import { MoviesList } from '@/components/molecules/MoviesList'
 import { fetchMovies } from '@/helpers/fetch'
-import { Movie } from '@/types/movies'
+import { Genres, Movie } from '@/types/movies'
 import React, { Suspense } from 'react'
 import { unstable_noStore as noStore } from 'next/cache';
 
 interface FilterProps {
-    searchParams: object
+    searchParams: string
 }
 
  const Page = async ({searchParams}: FilterProps) => {
     noStore();
-    const url = 'http://localhost:8000/movies'
+    const url = `${process.env.BACKEND_URI}/movies`
     const discover = await fetchMovies(url, '1')
     const discover2 = await fetchMovies(url, '2')
     const discover3 = await fetchMovies(url, '3')
@@ -22,10 +22,10 @@ interface FilterProps {
 
     const params = new URLSearchParams(searchParams);
     const userFilterSelection = params.get('genre');
-	console.log("TCL: Page -> userFilterSelection", userFilterSelection)
-    const filteredData = [...allMovies].filter(movie=>{
-        const filteredMovie = movie.genre_ids
-        const isSameGenre = filteredMovie.includes(Number(userFilterSelection))
+    const filteredData = [...allMovies].filter((movie: Movie) =>{
+        const filteredMovie = movie.genres
+        const id : number = Number(userFilterSelection);
+        const isSameGenre = (id: Genres) :boolean => filteredMovie.includes(id);
         return isSameGenre
     })
     

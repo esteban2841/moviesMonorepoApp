@@ -7,16 +7,16 @@ import { useContext, useEffect, useState } from 'react'
 import { MoviesContext } from '@/context'
 
 export const RightMenu = () => {
-  const { isLoginModalOpen, currentUser, logout, isSignedUser, setIsSignedUserData, toggleLoginModal } = useContext(MoviesContext)
-  const hasData = Object.hasOwnProperty(currentUser)
+  const { isLoginModalOpen, currentUser, logout, toggleLoginModal } = useContext(MoviesContext)
+  const hasData = currentUser && currentUser.hasOwnProperty('_id')
   return (
     <div className='flex flex-row items-center justify-center gap-4'>
         { hasData &&
-          <SVGSignIcon onClick={()=>logout({})} className='cursor-pointer'/>}
+          <SVGSignIcon onClick={logout} className='cursor-pointer'/>}
         <SVGBellIcon className='cursor-pointer'/>
         <SVGSunIcon className='cursor-pointer'/>
         { !hasData &&
-          <SVGUserCircle onClick={()=>toggleLoginModal(!isLoginModalOpen)} className='cursor-pointer'/>
+          <SVGUserCircle onClick={toggleLoginModal} className='cursor-pointer'/>
         }
     </div>
   )

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 import 'swiper/css';
 
@@ -46,14 +47,14 @@ const debounceFn = (cb: ()=>void, interval: number)=>{
 }
 
 export const HomeSwiperSection = ({sectionName, sectionData}: SwiperHomeProps) => {
-  const [ data, setData] = useState([])
+  const [ data, setData] = useState<Array<Movie>>([])
   const { setSliderSection } = useContext(MoviesContext)
   const name = sectionName
-  const sectionSlider = useRef(null)
+  const sectionSlider = useRef<HTMLDivElement>(null)
   const firstComputedWidth = window.screen.width > 1600
   const [slidesPerPage, setSlidesPerPage] = useState(firstComputedWidth ? 7 : 5)
   const calcSlidesPerPage = ()=>{
-    const screenSize = sectionSlider.current?.offsetWidth 
+    const screenSize = sectionSlider.current?.offsetWidth || 1200
     const slides = screenSize / 250
     setSlidesPerPage(slides)
   }
@@ -62,18 +63,18 @@ export const HomeSwiperSection = ({sectionName, sectionData}: SwiperHomeProps) =
   
   useEffect(()=>{
     const sectionRef = {sectionSlider, name}
-    setSliderSection(sectionRef)
-    setData(sectionData)
-      window.addEventListener('resize', ()=>{
-        debounceFn(calcSlidesPerPage, 200)
-      })
-      return ()=>{
-        window.removeEventListener('resize', ()=>{
-          
-        })
+    setSliderSection && setSliderSection(sectionRef)
+    setData(sectionData || [])
+    window.addEventListener('resize', ()=>{
+      debounceFn(calcSlidesPerPage, 200)
+    })
+    return ()=>{
+      window.removeEventListener('resize', ()=>{
         
-      }
-    }, [])
+      })
+      
+    }
+  }, [])
 
     
 

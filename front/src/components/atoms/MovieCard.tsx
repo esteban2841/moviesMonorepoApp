@@ -25,8 +25,8 @@ export const MovieCard = ({title, release_date, vote_average, poster_path, id} :
             revalidatePath('/detail', 'page')
         }
     }
-    const handleFavorites = (id, type)=> {
-        addFavSavedItems({
+    const handleFavorites = (id: number, type: string)=> {
+        addFavSavedItems && addFavSavedItems({
             id,
             type
         })
@@ -55,8 +55,6 @@ export const MovieCard = ({title, release_date, vote_average, poster_path, id} :
                             buildStyles({
                                 strokeLinecap: 'butt',
                                 textSize: '16px',
-                                strokeWidth: '4',
-                                background: '#4DA14F',
                                 pathTransitionDuration: 0.5,
                                 textColor: '#fff',
                                 trailColor: 'rgb(38, 80, 39, 0.4)',

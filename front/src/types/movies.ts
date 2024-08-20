@@ -1,28 +1,41 @@
 export interface Movie {
-    adult: boolean;
+    adult?: boolean;
     backdrop_path: string;
-    genre_ids: number[];
+    genres: Genres[];
     id: number;
-    original_language: string;
-    original_title: string;
+    original_language?: string;
+    original_title?: string;
     overview: string;
-    popularity: number;
+    popularity?: number;
     poster_path?: string;
     release_date: string;
     title: string;
-    video: boolean;
+    video?: boolean;
     vote_average: number;
-    vote_count: number;
+    vote_count?: number;
+    runtime: string;
 }
 
+export interface Genres {
+    id: number;
+    name: string;
+}
 export interface MoviesResponse {
     page: number;
     results: Movie[];
 }
 
 export interface SwiperHomeProps {
-    sectionName: string;
-    sectionData: Movie[]
+    sectionName?: string;
+    sectionData?: Movie[]
+}
+
+export interface SectionReference{
+    name: string,
+    sectionSlider: RefReact,
+}
+export interface RefReact {
+    current: HTMLElement
 }
 
 export interface MovieHomeCardProps {

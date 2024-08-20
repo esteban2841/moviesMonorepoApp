@@ -7,7 +7,6 @@ import { SignForm } from "./SignForm"
 
 export const ModalSign = () => {
   const { signButonSelected, isLoginModalOpen, toggleLoginModal } = useContext(MoviesContext)
-	console.log("TCL: ModalSign -> signButonSelected", signButonSelected)
   return (
     isLoginModalOpen ? <div className="fixed w-full max-w-5xl w-full h-[600px]
     flex flex-row items-center rounded-3xl justify-center p-4
@@ -15,7 +14,7 @@ export const ModalSign = () => {
 ">
     <div className=" h-full w-3/5">
       <div className="flex flex-col p-10 text-[#fff]">
-        <div onClick={()=>toggleLoginModal(!isLoginModalOpen)} className="cursor-pointer flex flex-row gap-2 ">
+        <div onClick={toggleLoginModal} className="cursor-pointer flex flex-row gap-2 ">
 
           <button className="flex border-solid border-white w-[30px]" >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">

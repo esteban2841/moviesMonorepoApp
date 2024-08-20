@@ -124,17 +124,15 @@ export class UsersController {
       throw new UnauthorizedException('You has not logged in, please log in');
     }
   }
-  @Get('/retrieve-user')
+  @Get('/section')
   async retrieveUserData(@Res() response, @Query('_id') _id) {
     try {
       const user = await this.usersService.retrieveUserData(_id);
-      
-      const res = stringifySafe(user);
+			console.log("TCL: retrieveUserData -> user", user)
 
-      console.log('TCL: retrieveUserData -> res', res);
-      return response.json({
+      return response.send({
         message: 'user retrieved successfully',
-        user: res,
+        user,
       });
     } catch (err) {
       throw new UnauthorizedException('You has not logged in, please log in');

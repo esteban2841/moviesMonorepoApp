@@ -1,5 +1,4 @@
-import { Favorites } from '@/components/atoms/Favorites';
-import { MoviesState } from './MoviesProvider'
+import { MoviesState, User } from './MoviesProvider'
 import { updateUser } from '@/helpers/fetch';
 
 export const moviesReducer = (state: MoviesState, action: any) : MoviesState => {
@@ -15,7 +14,6 @@ export const moviesReducer = (state: MoviesState, action: any) : MoviesState => 
                 signButonSelected: action.payload
             }
         case 'setActiveFilter':
-			console.log("TCL: action.payload", action.payload)
             return{
                 ...state,
                 activeFilterName: action.payload
@@ -27,7 +25,6 @@ export const moviesReducer = (state: MoviesState, action: any) : MoviesState => 
                 isSignedUser: true
             }
         case 'logout':
-			console.log("TCL: action.payload", state.currentUser, action.payload)
             return{
                 ...state,
                 currentUser: action.payload
@@ -39,26 +36,25 @@ export const moviesReducer = (state: MoviesState, action: any) : MoviesState => 
             }
         case 'addFavSavedItems':
             const user = state.currentUser
-            const url = 'http://localhost:8000/users'
+            const url = `${process.env.BACKEND_URI}/users`
             if(!user) return{
                 ...state
             }
             if(action.payload.type == 'fav'){
                 if(user.favorites){
                     user.favorites.push(action.payload.id)
-					console.log("TCL: user", user)
                     updateUser(url, 'update', user)
                     return{
                         ...state,
                         currentUser: {...user}
                     }
                 }
-                const userMod = {
+                const userMod: User = {
                     ...user,
                     favorites: [],
                 }
-                userMod.favorites.push(action.payload.id)
-				console.log("TCL: userMod", userMod)
+				console.log("TCL: action.payload", action.payload)
+                userMod.favorites?.push(action.payload.id)
                 updateUser(url, 'update', userMod)
                 return{
                     ...state,
@@ -68,19 +64,18 @@ export const moviesReducer = (state: MoviesState, action: any) : MoviesState => 
             if(action.payload.type == 'sav'){
                 if(user.saved){
                     user.saved.push(action.payload.id)
-					console.log("TCL: user", user)
                     updateUser(url, 'update', user)
                     return{
                         ...state,
                         currentUser: {...user}
                     }
                 }
-                const userMod = {
+                const userMod : User
+                 = {
                     ...user,
                     saved: [],
                 }
-                userMod.saved.push(action.payload.id)
-				console.log("TCL: userMod", userMod)
+                userMod.saved?.push(action.payload.id)
                 updateUser(url, 'update', userMod)
                 
                 return{

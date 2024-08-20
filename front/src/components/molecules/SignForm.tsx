@@ -3,6 +3,7 @@ import { createUser, retrieveUser } from "@/helpers/fetch"
 import { useContext, useState } from "react"
 import Swal from 'sweetalert2';
 import { useRouter } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export const SignForm = () => {
     const { signButonSelected, isLoginModalOpen, toggleLoginModal, setCurrentUser, setIsSignedUserData  } = useContext(MoviesContext)
@@ -12,44 +13,36 @@ export const SignForm = () => {
     })
     const router = useRouter()
 
-    const handleInputChange = (e)=>{
-        const value = e.currentTarget.value
-        const setState = {...form,[e.currentTarget.name]:value}
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>)=>{
+        const value = event.currentTarget.value
+        const setState = {...form,[event.currentTarget.name]:value}
         setForm(setState)
     }
 
-    const registerNewUser = async (e)=>{
-        const url = 'http://localhost:8000/users'
-        e.preventDefault()
+    const registerNewUser = async (event: React.FormEvent<HTMLFormElement>): Promise<void>=>{
+        const url = `${process.env.BACKEND_URI}/users`
+        event.preventDefault()
         const data = form
         try{
             const res = await createUser( url, 'register', data)
-            Swal.fire({
-                title: 'Success!',
-                text: 'Your operation completed successfully.',
-                icon: 'success',
-                confirmButtonText: 'Great!'
-            });
 
-            toggleLoginModal(!isLoginModalOpen)
+            toggleLoginModal && toggleLoginModal(!isLoginModalOpen)
 
             router.push('/')
-            
-            return res.user
             
         }catch (error) {
             Swal.fire({
                 title: 'Error!',
-                text: error,
+                text: String(error),
                 icon: 'error',
                 confirmButtonText: 'Great!'
             });
         }
         
     }
-    const loginUser = async (e)=>{
-        const url = 'http://localhost:8000/users'
-        e.preventDefault()
+    const loginUser = async (event: React.FormEvent<HTMLFormElement>): Promise<void>=>{
+        const url = `${process.env.BACKEND_URI}/users`
+        event.preventDefault()
         const data = form
         try{
             const res = await createUser( url, 'login', data)
@@ -64,13 +57,15 @@ export const SignForm = () => {
             const userString = (user._id)
             
             router.push(`/user?id=${encodeURIComponent(userString)}`);
-            toggleLoginModal(!isLoginModalOpen)
-            revalidatePath('/user', 'page')
+
+            setCurrentUser && setCurrentUser(res.user)
+            router.push(`/user?id=${encodeURIComponent(res.user._id)}`);
+            toggleLoginModal && toggleLoginModal(!isLoginModalOpen)
             
         }catch (error) {
             Swal.fire({
                 title: 'Error!',
-                text: error,
+                text: String(error),
                 icon: 'error',
                 confirmButtonText: 'Great!'
               });
