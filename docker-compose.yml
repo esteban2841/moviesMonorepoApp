@@ -2,17 +2,23 @@ version: "3"
 
 services:
   nextjs-app:
-    build:
-      context: ./front
-      dockerfile: Dockerfile
+    build: ./front
     ports:
       - "3000:3000"
     depends_on:
       - nestjs-backend
+    networks:
+      - app-network
+    environment:
+    - BACKEND_URI=http://moviesmonorepoapp-nestjs-backend-1:8000
 
   nestjs-backend:
-    build:
-      context: ./back
-      dockerfile: Dockerfile
+    build: ./back
     ports:
       - "8000:8000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

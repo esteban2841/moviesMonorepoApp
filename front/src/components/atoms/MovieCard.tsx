@@ -40,7 +40,8 @@ export const MovieCard = ({title, release_date, vote_average, poster_path, id} :
         <figure>
             <div onClick={()=>handleDetail(id)} className="header-movies-card">
                 <Image className="object-fill"
-                src={`${baseImageUrl}${poster_path}`} height={200} width={200} alt={title}/>
+                    src={`${baseImageUrl}${poster_path}`} height={200} width={200} alt={title}
+                />
 
             </div>
             <div className="flex footer-movies-card justify-center p-4 flex-col gap-2 w-full h-[130px] w-full">

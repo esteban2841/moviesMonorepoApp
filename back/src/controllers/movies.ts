@@ -3,7 +3,6 @@ import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
 import { Movies } from '../schemas/movies';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { query, response } from 'express';
 
 @Controller('/movies')
 export class MoviesController {
@@ -15,7 +14,6 @@ export class MoviesController {
   async findAll(@Res() response, @Query('page') page: string): Promise<object> {
     try {
       const data = await this.moviesService.findAll(page);
-			console.log("TCL: MoviesController -> data", data)
 
       return response.json({
         message: 'success',
@@ -43,7 +41,6 @@ export class MoviesController {
   async nowPlayingList(@Res() response): Promise<object> {
     try {
       const data = await this.moviesService.nowPlayingList();
-			console.log("TCL: MoviesController -> data", data)
 
       return response.json({
         message: 'success',
@@ -71,7 +68,6 @@ export class MoviesController {
   async upcoming(@Res() response): Promise<object> {
     try {
       const data = await this.moviesService.upcoming();
-			console.log("TCL: MoviesController -> data", data)
 
       return response.json({
         message: 'success',
@@ -87,7 +83,6 @@ export class MoviesController {
     @Body() saved: any,
   ): Promise<object> {
     try {
-      console.log("TCL: MoviesController -> saved", saved)
       if (!saved) throw new Error('no saved items selected');
       const savedItems = [...saved];
       const allSavedMovies = await Promise.all(
@@ -96,7 +91,6 @@ export class MoviesController {
           return data;
         }),
       );
-      console.log("TCL: MoviesController -> allSavedMovies", allSavedMovies)
       return response.json({
         message: 'success',
         data: allSavedMovies,
@@ -119,7 +113,6 @@ export class MoviesController {
           return data;
         }),
       );
-      
       return response.json({
         message: 'success',
         data: allFavoriteMovies,
@@ -132,7 +125,6 @@ export class MoviesController {
   async topRated(@Res() response): Promise<object> {
     try {
       const data = await this.moviesService.topRated();
-			console.log("TCL: MoviesController -> data", data)
 
       return response.json({
         message: 'success',
@@ -158,12 +150,9 @@ export class MoviesController {
   }
 
   @Get('/popular')
-  async getPopularMovies(
-    @Query() allParams: any,
-    @Res() response,
-  ): Promise<object> {
+  async getPopularMovies(@Res() response): Promise<object> {
     try {
-      const data = await this.moviesService.getPopularMovies(allParams);
+      const data = await this.moviesService.getPopularMovies();
 
       return response.json({
         message: 'success',

@@ -10,6 +10,9 @@ import { MoviesProvider } from "@/context/movies/MoviesProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
+const url = process.env.BACKEND_URI
+console.log("TCL: layout url", url)
+
 export const metadata: Metadata = {
   title: "Inlaze movies",
   description: "The best movies application available in the market, sign in and enjoy watching your favorites movies, series and more than that in our platform",

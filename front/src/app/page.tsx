@@ -9,7 +9,7 @@ import { unstable_noStore as noStore } from 'next/cache';
 export default async function Home() {
   noStore()
   const url = `${process.env.BACKEND_URI}/movies`
-	console.log("TCL: Home -> url", url)
+	console.log("TCL: Home principal url -> url", url)
   const popular = await fetchDataSections(url, 'popular')
   const upcoming = await fetchDataSections(url, 'upcoming')
   const {name: top, data: dataTop} = await fetchDataSections(url, 'top-rated')

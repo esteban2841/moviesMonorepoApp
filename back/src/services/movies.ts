@@ -1,9 +1,9 @@
-import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Movies } from '../schemas/movies';
 import { HttpService } from '@nestjs/axios';
-import { catchError, firstValueFrom, map } from 'rxjs';
+import { catchError, firstValueFrom } from 'rxjs';
 import { AxiosError } from 'axios';
 
 export interface MoviesResponse {
@@ -133,7 +133,7 @@ export class MoviesService {
     return data;
   }
 
-  async getPopularMovies(params?: string) {
+  async getPopularMovies() {
     // const paramsArray = params.split('?') || '';
 
     const { data } = await firstValueFrom(

@@ -2,11 +2,12 @@
 FROM node:21-alpine AS base
 
 # Set the working directory in the container
-WORKDIR /src/main.ts
+WORKDIR /src
 
 # Copy package.json and npm-lock.yaml
 COPY package*.json ./
 
+RUN npm install -g @nestjs/cli
 # Install dependencies
 RUN npm install
 
@@ -19,4 +20,4 @@ RUN npm run build
 EXPOSE 8000
 
 # Run the web service on container startup
-CMD ["npm", "run", "start"]
+CMD ["yarn", "start"]
